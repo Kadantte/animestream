@@ -43,9 +43,10 @@ class DownloadManager {
     String filename, {
     String? subtitleUrl,
     Map<String, String> customHeaders = const {},
+    bool mock = false, 
   }) async {
     if(!(await DownloaderHelper().checkAndRequestPermission())) {
-      floatingSnackBar("Provide storage access for downloading...");
+      floatingSnackBar("Allow 'All files access' to download files.");
       Logs.downloader.log("Storage permission not granted. Rejecting download request...");
       return;
     }
@@ -59,6 +60,7 @@ class DownloadManager {
       customHeaders: customHeaders,
       progress: 0,
       subtitleUrl: subtitleUrl,
+      mock: mock,
     );
 
     await _downloader.startDownload(item);

@@ -76,7 +76,6 @@ class _WatchState extends State<Watch> with WidgetsBindingObserver {
       if (call.method == "onUserLeaveHint") {
         if (currentUserSettings?.enablePipOnMinimize ?? false) {
            context.read<PlayerProvider>().setPip(true);
-          // await _channel.invokeMethod('enterPip');
         }
       }
     });
@@ -399,8 +398,9 @@ class _WatchState extends State<Watch> with WidgetsBindingObserver {
           child: Listener(
             onPointerHover: (event) {
               // show controls on mouse movement
-              playerProvider.toggleControlsVisibility(action: true);
-              hideControlsOnTimeout(playerDataProvider, playerProvider, timeoutSeconds: 2);
+              if (!playerProvider.state.controlsVisible)
+                playerProvider.toggleControlsVisibility(action: true);
+              hideControlsOnTimeout(playerDataProvider, playerProvider, timeoutSeconds: 3);
 
               // Hide the pointer when controls arent visible and mouse is unmoved for 3 seconds
               // if (playerProvider.state.controlsVisible) return;
@@ -411,7 +411,7 @@ class _WatchState extends State<Watch> with WidgetsBindingObserver {
               }
               pointerHideTimer?.cancel();
               pointerHideTimer = Timer(Duration(seconds: 3), () {
-                if (mounted)
+                if (mounted && !hidePointer)
                   setState(() {
                     hidePointer = true;
                     pointerHideTimer = null;
@@ -502,7 +502,7 @@ class _WatchState extends State<Watch> with WidgetsBindingObserver {
                               ],
                             ),
                           )
-                        : Platform.isWindows
+                        : (Platform.isWindows || Platform.isLinux)
                             ? Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
