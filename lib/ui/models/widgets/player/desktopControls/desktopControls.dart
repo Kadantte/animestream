@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:animestream/core/app/runtimeDatas.dart';
 import 'package:animestream/ui/models/bottomSheets/customControlsSheet.dart';
+import 'package:animestream/ui/models/playerControllers/fvp.dart';
 import 'package:animestream/ui/models/providers/playerDataProvider.dart';
 import 'package:animestream/ui/models/providers/playerProvider.dart';
 import 'package:animestream/ui/models/snackBar.dart';
@@ -357,6 +358,11 @@ class _DesktopControlsState extends State<DesktopControls> {
                                   },
                                   icon: makeIcon(provider.state.showSubs ? Icons.subtitles : Icons.subtitles_outlined)),
                             ),
+                            // IconButton(
+                            //   onPressed: () {
+
+                            //   },
+                            // ),
                             IconButton(
                                 onPressed: () {
                                   final tp = context.read<AppProvider>();
@@ -406,6 +412,14 @@ class _DesktopControlsState extends State<DesktopControls> {
                               )
                             : Icon(Icons.hd_outlined),
                       ),
+                      // Tab(
+                      //   child: DefaultTabController.of(context).index == 1
+                      //       ? Text(
+                      //           "Audio Tracks",
+                      //           style: textStyle,
+                      //         )
+                      //       : Icon(Icons.music_note_outlined),
+                      // ),
                       Tab(
                         child: DefaultTabController.of(context).index == 1
                             ? Text(
@@ -465,6 +479,19 @@ class _DesktopControlsState extends State<DesktopControls> {
                               );
                             },
                           ),
+                          // ListView.builder(
+                          //   itemCount: 0,
+                          //   itemBuilder: (context, index) {
+                          //     final audTrack = dataProvider.state.audioTracks[index];
+                          //     return GestureDetector(
+                          //       onTap: () {
+                          //         (provider.controller as FvpWrapper).setAudioTrack(audTrack);
+                          //       },
+                          //       child: Text(
+                          //       audTrack.language
+                          //     ));
+                          //   },
+                          // ),
                           ListView.builder(
                             itemCount: dataProvider.state.streams.length,
                             itemBuilder: (context, index) {
