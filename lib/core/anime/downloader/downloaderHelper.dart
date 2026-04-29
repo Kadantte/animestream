@@ -34,7 +34,9 @@ class DownloaderHelper {
 
     final status = await fileAccessPermission.status;
 
-    if (status.isPermanentlyDenied) return false;
+    if (status.isPermanentlyDenied) {
+      return false;
+    }
 
     if (status.isDenied) {
       showToast("Provide storage access for downloading!");
@@ -86,24 +88,12 @@ class DownloaderHelper {
     final animeName = fileName.replaceAll(RegExp(r'\s+ep\s*\d+\s*$', caseSensitive: false), '').trim();
 
     // The check was BS since non existing directory cant be selected!
-    // if (downPath.existsSync()) {
     final directory = Directory("${downPath.path}/$animeName");
     if (!(await directory.exists())) {
       await directory.create(recursive: true);
     }
 
     finalPath = '$basePath/$animeName/$fileName.$ext';
-    // } else {
-    //   // This block shouldnt be called in normal cases btw
-    //   final externalStorage = await getExternalStorageDirectory();
-    //   final directory = Directory("${externalStorage?.path}/$animeName");
-    //   if (!(await directory.exists())) {
-    //     await directory.create(recursive: true);
-    //   }
-
-    //   finalPath = "${externalStorage?.path}/$animeName/$fileName.$ext";
-    // }
-
     return finalPath;
   }
 

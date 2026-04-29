@@ -24,8 +24,6 @@ class DesktopControls extends StatefulWidget {
 }
 
 class _DesktopControlsState extends State<DesktopControls> {
-  // late VideoController controller;
-
   @override
   void initState() {
     super.initState();
@@ -197,6 +195,7 @@ class _DesktopControlsState extends State<DesktopControls> {
                                     ? (provider.controller.duration ?? 0).toDouble()
                                     : dataProvider.state.sliderValue.toDouble(),
                                 thumbColor: Colors.white,
+                                secondaryTrackValue: provider.controller.buffered?.toDouble(),
                                 onChanged: (val) {
                                   provider.controller.seekTo(Duration(seconds: val.toInt()));
                                 },
@@ -315,7 +314,7 @@ class _DesktopControlsState extends State<DesktopControls> {
                                     provider.updateVolume(restorableVolume);
                                   }
                                 },
-                                child: makeIcon(Icons.volume_up_sharp)),
+                                child: makeIcon(provider.state.volume == 0 ? Icons.volume_off_sharp : Icons.volume_up_sharp)),
                             Padding(
                               padding: const EdgeInsets.only(right: 10),
                               child: SliderTheme(
@@ -358,6 +357,11 @@ class _DesktopControlsState extends State<DesktopControls> {
                                   },
                                   icon: makeIcon(provider.state.showSubs ? Icons.subtitles : Icons.subtitles_outlined)),
                             ),
+                            // IconButton(
+                            //   onPressed: () {
+
+                            //   },
+                            // ),
                             IconButton(
                                 onPressed: () {
                                   final tp = context.read<AppProvider>();
@@ -407,6 +411,14 @@ class _DesktopControlsState extends State<DesktopControls> {
                               )
                             : Icon(Icons.hd_outlined),
                       ),
+                      // Tab(
+                      //   child: DefaultTabController.of(context).index == 1
+                      //       ? Text(
+                      //           "Audio Tracks",
+                      //           style: textStyle,
+                      //         )
+                      //       : Icon(Icons.music_note_outlined),
+                      // ),
                       Tab(
                         child: DefaultTabController.of(context).index == 1
                             ? Text(
@@ -466,6 +478,19 @@ class _DesktopControlsState extends State<DesktopControls> {
                               );
                             },
                           ),
+                          // ListView.builder(
+                          //   itemCount: 0,
+                          //   itemBuilder: (context, index) {
+                          //     final audTrack = dataProvider.state.audioTracks[index];
+                          //     return GestureDetector(
+                          //       onTap: () {
+                          //         (provider.controller as FvpWrapper).setAudioTrack(audTrack);
+                          //       },
+                          //       child: Text(
+                          //       audTrack.language
+                          //     ));
+                          //   },
+                          // ),
                           ListView.builder(
                             itemCount: dataProvider.state.streams.length,
                             itemBuilder: (context, index) {
