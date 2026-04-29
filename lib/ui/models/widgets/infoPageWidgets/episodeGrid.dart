@@ -324,7 +324,7 @@ class InfoPageEpisodeGrid extends StatelessWidget {
             width: MediaQuery.of(context).size.width / 3,
             child: ServerSelectionBottomSheet(
               provider: provider,
-              episodeIndex: index,
+              episodeIndex: index + (provider.currentPageIndex * 24),
               type: ServerSheetType.download,
             ),
           ),
